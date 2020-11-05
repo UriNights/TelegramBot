@@ -17,10 +17,10 @@ public class DailyBlock {
 		this.reservationList = new ArrayList<>();
 	}
 
-	public boolean addReservation(String user, LocalTime startTime, LocalTime periodeTime) {
+	public boolean addReservation(TelegramUser telegramUser, LocalTime startTime, LocalTime periodeTime) {
 		
 		if (this.reservationList.size() < DailyBlock.maxReservesPerDay) {
-			this.reservationList.add(new Reservation(user, startTime, periodeTime));
+			this.reservationList.add(new Reservation(telegramUser, startTime, periodeTime));
 			return true;
 		}
 		

@@ -44,7 +44,7 @@ public class BotController {
 
 	private String getProtectedToken() throws IOException {
 
-		return Files.readAllLines(Paths.get("src/main/resources/dbconfig/protected")).get(1);
+		return Files.readAllLines(Paths.get("src/main/resources/dbconfig/protected")).get(0);
 	}
 
 	

@@ -27,6 +27,8 @@ public class Bot extends TelegramLongPollingBot {
 
 		currentChatId = update.getMessage().getChatId();
 		
+		System.out.println(update);
+		
 		if (update.getMessage().getText().equals("quit")) {
 			this.allFlagsDown();
 			return;

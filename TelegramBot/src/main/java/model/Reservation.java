@@ -4,25 +4,25 @@ import java.time.LocalTime;
 
 public class Reservation {
 
-	private String user;
+	private TelegramUser telegramUser;
 	private LocalTime startTime;
 	private LocalTime periodeTime;
 	
-	public Reservation(String user, LocalTime startTime, LocalTime periodeTime) {
+	public Reservation(TelegramUser telegramUser, LocalTime startTime, LocalTime periodeTime) {
 		
-		this.user = user;
+		this.telegramUser = telegramUser;
 		this.startTime = startTime;
 		this.periodeTime = periodeTime;
 	}
 
 	
 	// Getters and Setters
-	public String getUser() {
-		return user;
+	public TelegramUser getTelegramUser() {
+		return this.telegramUser;
 	}
 
-	public void setUser(String user) {
-		this.user = user;
+	public void setUser(TelegramUser telegramUser) {
+		this.telegramUser = telegramUser;
 	}
 
 	public LocalTime getStartTime() {
