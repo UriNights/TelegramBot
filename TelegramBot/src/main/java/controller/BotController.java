@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeParseException;
-import java.util.Scanner;
 
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
@@ -16,10 +14,18 @@ import view.Bot;
 
 public class BotController {
 
-	private Bot botTelegram;
+	private Controller controller;
 	private DBController dbController;
+	
+	private Bot botTelegram;
 
-	public void start() {
+	public BotController(Controller controller) {
+		
+		this.controller = controller;
+		this.dbController = controller.getDbController();
+	}
+	
+	public void startBot() {
 
 		ApiContextInitializer.init();
 		TelegramBotsApi botsApi = new TelegramBotsApi();
@@ -34,8 +40,6 @@ public class BotController {
 			System.out.println("Error taking token from 'protected' file.");
 			System.exit(1);
 		}
-		
-		this.dbController = new DBController();
 	}
 
 	private String getProtectedToken() throws IOException {

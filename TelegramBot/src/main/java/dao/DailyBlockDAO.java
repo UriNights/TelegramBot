@@ -1,26 +1,25 @@
 package dao;
 
-public class ReservesDAO {
+import org.bson.Document;
+
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+
+public class DailyBlockDAO {
+	
 	private MongoDatabase mongoDatabase;
 
-	public DungeonDAO(MongoDatabase mongoDatabase) {
+	public DailyBlockDAO(MongoDatabase mongoDatabase) {
 
 		this.mongoDatabase = mongoDatabase;
 	}
 
-	public MongoCollection<Document> getTopPlayers() {
+	public MongoCollection<Document> getAllDailyBlocks() {
 
-		MongoCollection<Document> collectionTopPlayers = this.mongoDatabase.getCollection("PlayersPoints");
-		return collectionTopPlayers;
+		return this.mongoDatabase.getCollection("DailyBlocks");
 	}
 
-	public MongoCollection<Document> getTopPlayersCollection() {
-
-		MongoCollection<Document> collectionTopPlayers = this.mongoDatabase.getCollection("PlayersPoints");
-		return collectionTopPlayers;
-	}
-
-	public void saveGame(String nick, int points) {
+	/*public void saveGame(String nick, int points) {
 
 		MongoCollection<Document> topPlayersCollection = this.getTopPlayersCollection();
 
@@ -42,5 +41,5 @@ public class ReservesDAO {
 
 			topPlayersCollection.insertOne(topFivePlayer);;
 		}
-	}
+	}*/
 }

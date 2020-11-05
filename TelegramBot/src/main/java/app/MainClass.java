@@ -1,12 +1,12 @@
 package app;
 
-import controller.BotController;
+import controller.Controller;
 
 public class MainClass {
 
 	public static void main(String[] args) {
 		
-		BotController botController = new BotController();
-		botController.start();
+		Controller controller = new Controller();
+		controller.start();
 	}
 }
