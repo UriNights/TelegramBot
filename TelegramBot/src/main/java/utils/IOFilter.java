@@ -1,28 +1,20 @@
 package utils;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class IOFilter {
 
-	public static LocalDateTime dateAndTimeFormatter(String dateAndTime) {
+	public static LocalDate dateFormatter(String date) {
 
-		if (dateAndTime.matches("[0-9]{1,4}(-[0-9]{1,2}){2} [0-9]{1,2}(:[0-9]{1,2}){2}")) {
-
-			String[] splitedDateAndTime = dateAndTime.split(" ");
+		if (date.matches("[0-9]{1,4}(-[0-9]{1,2}){2}")) {
 
 			// ISO_LOCAL_DATE -> '2011-12-03'
-			// ISO_LOCAL_TIME -> '10:15:30'
 
 			try {
-				LocalDate date = LocalDate.parse(splitedDateAndTime[0], DateTimeFormatter.ISO_LOCAL_DATE);
-				LocalTime time = LocalTime.parse(splitedDateAndTime[1], DateTimeFormatter.ISO_LOCAL_TIME);
-				LocalDateTime dateAndTimeFormatted = LocalDateTime.of(date, time);
-
-				return dateAndTimeFormatted;
+				LocalDate dateFormatted = LocalDate.parse(date, DateTimeFormatter.ISO_LOCAL_DATE);
+				return dateFormatted;
 						
 			} catch (DateTimeParseException e) {
 				return null;
@@ -30,5 +22,16 @@ public class IOFilter {
 		}
 		
 		return null;
+	}
+
+	public static String firstTwoWords(String textAnswer) {
+
+		String[] splittedText = textAnswer.split(" ");
+		
+		if (splittedText.length == 1) {
+			return textAnswer;
+		}
+		
+		return splittedText[0] + " " + splittedText[1];
 	}
 }

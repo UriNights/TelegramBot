@@ -1,7 +1,6 @@
 package model;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class DailyBlock {
@@ -17,10 +16,10 @@ public class DailyBlock {
 		this.reservationList = new ArrayList<>();
 	}
 
-	public boolean addReservation(TelegramUser telegramUser, LocalTime startTime, LocalTime periodeTime) {
+	public boolean addReservation(Reservation reservation) {
 		
 		if (this.reservationList.size() < DailyBlock.maxReservesPerDay) {
-			this.reservationList.add(new Reservation(telegramUser, startTime, periodeTime));
+			this.reservationList.add(reservation);
 			return true;
 		}
 		

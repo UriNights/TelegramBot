@@ -3,26 +3,31 @@ package controller;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import model.Reservation;
+import model.TelegramUser;
 import utils.IOFilter;
 import view.Bot;
 
 public class BotController {
 
-	private Controller controller;
 	private DBController dbController;
 	
 	private Bot botTelegram;
+	
+	private Reservation reservation;
 
 	public BotController(Controller controller) {
 		
-		this.controller = controller;
 		this.dbController = controller.getDbController();
+		
+		this.reservation = null;
 	}
 	
 	public void startBot() {
@@ -48,25 +53,52 @@ public class BotController {
 	}
 
 	
-	// Commands
+	// Reservation actions
 	
-	public boolean makeReserve(String dateAndTime) {
-
-		LocalDateTime dateAndTimeFormatted = IOFilter.dateAndTimeFormatter(dateAndTime);
+	public void newReserve(int userTelegramID) {
 		
-		if (dateAndTimeFormatted == null) {
-			this.botTelegram.sendMessage("Invalid format. Please, respect this format: yyyy-mm-dd hh:mm:ss");
-			return false;
-		}
-		
-		this.dbController.addReserve(dateAndTimeFormatted);
-		
-		this.dbController.closeConection();
-		
-		return true;
+		this.reservation = new Reservation(userTelegramID);
+		this.botTelegram.askForDate();
 	}
 
-	public void deleteReserve() {
+	public void setDateToReservation(LocalDate dateFormatted) {
 
+		this.reservation.setDate(dateFormatted);
+	}
+
+	public void setHourToReservation(String hour) {
+		
+		this.reservation.setStartTime(LocalTime.of(Integer.parseInt(hour), 0));
+	}
+
+	public void setMinutesToReservation(String minutesToAdd) {
+
+		this.reservation.plusMinutes(Long.parseLong(minutesToAdd));
+	}
+	
+	public void setPeriodeToReservation(String string) {
+
+		this.reservation.setPeriodeTime(Integer.parseInt(string));
+	}
+
+	public String sendReserveToDB() {
+
+		if (this.dbController.addReserveToDB(this.reservation)) {
+			return "Reservation done at " + this.reservation.getDate() + " -> From " + reservation.getStartTime() + " to " + this.reservation.getStartTime().plusMinutes(this.reservation.getPeriodeTime());
+		}
+		
+		return null;
+	}
+
+	
+	// To DBController
+	public boolean isUser(int telegramID) {
+		
+		return this.dbController.isUser(telegramID);
+	}
+
+	public boolean newUser(String textAnswer, int telegramUserID) {
+		
+		return this.dbController.addUser(new TelegramUser(IOFilter.firstTwoWords(textAnswer), telegramUserID));
 	}
 }
